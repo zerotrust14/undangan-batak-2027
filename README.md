@@ -1,38 +1,33 @@
-# Undangan Digital Adat Batak
+# Undangan Pernikahan Lamhot & Riris
 
-Undangan satu halaman responsif untuk ponsel dan laptop. Dibuat sebagai situs statis tanpa database.
+Undangan digital satu halaman bertema Batak heritage, responsif untuk ponsel dan laptop. Dibuat sebagai situs statis dan dipublikasikan melalui GitHub Pages.
 
-## Cara melihat lokal
+## Konten
 
-Buka `index.html` di browser, atau jalankan:
+- Profil Lamhot Parluhutan Tampubolon dan Riris Anastasia Simanungkalit, biodata dan nama orang tua.
+- Cerita singkat pasangan.
+- Sepuluh foto, dialog galeri, serta video kenangan yang dioptimalkan untuk web.
+- Pemberkatan: Sabtu, 1 Mei 2027, 09.00–11.00 WIB, GKP Kadipaten.
+- Pesta adat: Sabtu, 1 Mei 2027, 12.00–18.00 WIB, Aula GKP Cideres.
+- Hitung mundur menuju pemberkatan, tautan Google Maps, gift BCA, playlist Spotify, dan formulir ucapan.
+- Animasi reveal/zoom yang menghormati pengaturan reduced motion.
+
+## Aset
+
+Foto berasal dari folder `Foto/`. Dua foto profil merupakan crop dari foto pasangan yang diberikan. Video web ada di `Video/video-romantis-mobile.mp4` (H.264, 720p); sumber asli yang lebih besar tidak perlu diunggah. Musik menggunakan embed playlist Spotify publik “The Sound of Batak”; pemutaran bergantung pada koneksi internet dan layanan Spotify.
+
+## Ucapan
+
+Form ucapan saat ini menyimpan data di localStorage browser pengunjung masing-masing. Ucapan belum dikirim ke pasangan atau dibagikan antarpengunjung. Untuk mengumpulkan RSVP/ucapan bersama, perlu menambahkan backend seperti Google Sheets/Form atau database.
+
+## Privasi dan publikasi
+
+Repositori dan situs ini bersifat publik. Detail nomor rekening, foto, dan video tampil pada halaman yang dapat diakses siapa saja yang memiliki URL. Pastikan pasangan menyetujui informasi dan media tersebut sebelum menyebarkan link.
+
+## Menjalankan lokal
 
 ```sh
 python3 -m http.server 8765
 ```
 
-Lalu buka `http://localhost:8765`.
-
-## Sebelum dibagikan
-
-`index.html` saat ini masih berisi penanda yang perlu diganti:
-
-- Nama kedua mempelai dan nama orang tua.
-- Foto profil serta 10 foto galeri.
-- Jam acara pemberkatan dan pesta adat.
-- Informasi bank/e-wallet bila ingin dicantumkan.
-- Audio berlisensi/yang dimiliki keluarga, diletakkan di `assets/musik-batak-romantis.mp3`.
-
-Cari teks bertanda `[ ... ]`, `Nama Wanita`, `Nama Pria`, dan `Tambahkan foto` di `index.html`. Untuk foto, ganti elemen placeholder dengan tag `<img src="assets/nama-foto.jpg" alt="...">` dan simpan berkas foto dalam folder `assets/`.
-
-Ucapan pada versi ini tersimpan di penyimpanan browser pengunjung masing-masing, bukan terkumpul untuk pasangan. Untuk RSVP/ucapan bersama semua tamu, hubungkan formulir ke layanan backend seperti Google Sheets/Form atau database sebelum digunakan sebagai undangan final.
-
-## Tanggal dan lokasi
-
-- Sabtu, 1 Mei 2027
-- Pemberkatan: GKP Kadipaten
-- Pesta adat: Aula GKP Cideres
-- Tautan navigasi membuka pencarian lokasi di Google Maps.
-
-## Publikasi
-
-Situs statis ini dapat dipublikasikan melalui GitHub Pages atau hosting statis lain. Pastikan semua nama, foto, waktu, informasi hadiah, dan audio sudah final sebelum membagikan URL kepada tamu.
+Buka `http://localhost:8765`.
