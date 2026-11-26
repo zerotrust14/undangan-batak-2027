@@ -18,9 +18,11 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:76px}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow:hidden}
-body.opened{overflow-x:hidden}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-y:auto;touch-action:pan-y}
+body.opened{overflow-x:hidden;overflow-y:auto}
 body.no-scroll{overflow:hidden!important}
+html,body{min-height:100%}
+body:not(.opened){overflow:hidden}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:transparent}
@@ -31,7 +33,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:transparent
 .rule{width:54px;height:1px;background:var(--gold);margin:20px auto}
 
 /* ========== COVER ========== */
-.cover{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;overflow:hidden;
+.cover{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;
   background:linear-gradient(180deg,rgba(16,8,9,.82) 0%,rgba(32,14,17,.72) 50%,rgba(16,8,9,.88) 100%),
              url('Background/asset-1.jpg') center/cover no-repeat,var(--wine-deep)}
 .cover::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,transparent 10%,rgba(9,4,5,.78) 78%)}
@@ -58,9 +60,16 @@ body.opened .cover{opacity:0;visibility:hidden;transform:scale(1.04);transition:
 .btn:hover{background:var(--gold-light);transform:translateY(-2px)}
 .btn-outline{background:transparent;color:#fff4e0;border-color:rgba(233,211,161,.75)}
 .btn-outline:hover{background:var(--gold-light);color:var(--wine)}
-.cover-back .blessing{font:italic clamp(1rem,2.5vw,1.35rem)/1.7 var(--serif);color:#f1e0c4;max-width:520px;margin:0 auto 24px}
-.cover-photos{display:flex;gap:14px;margin-bottom:22px}
-.cover-photos img{width:82px;height:102px;object-fit:cover;object-position:center 32%;border:2px solid rgba(233,211,161,.8);border-radius:2px}
+/* back: full-bleed romantic photo */
+.cover-face.back{justify-content:flex-end;padding:0;isolation:isolate;background:#1a0b0d}
+.cover-face.back .back-photo-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;z-index:-2;transition:transform 1.2s ease}
+.cover-card.flipped .cover-face.back .back-photo-bg{transform:scale(1.06)}
+.cover-face.back::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(18,8,9,.28) 0%,rgba(18,8,9,.35) 40%,rgba(18,8,9,.9) 100%)}
+.cover-back-inner{width:100%;padding:30px 32px;text-align:center}
+.cover-back-inner .cover-eyebrow{margin-bottom:10px}
+.cover-back .blessing{font:italic clamp(1rem,2.5vw,1.3rem)/1.6 var(--serif);color:#f7e9d0;max-width:520px;margin:0 auto 18px;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.cover-back .cover-names{margin-bottom:16px}
+.cover-back .btn{margin-top:4px}
 .cover-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:3;color:#e2cdaa;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;display:flex;align-items:center;gap:10px;white-space:nowrap}
 .cover-hint::before,.cover-hint::after{content:"";width:32px;height:1px;background:var(--gold)}
 
@@ -272,19 +281,19 @@ footer .small{margin-top:40px;font-size:.6rem;letter-spacing:.24em;color:#a89379
           <button class="btn" id="openBtn">Open Invitation ↓</button>
         </div>
         <div class="cover-face cover-back">
-          <p class="cover-eyebrow">Dengan penuh syukur</p>
-          <p class="blessing">Kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberi doa restu pada hari bahagia kami.</p>
-          <div class="cover-photos">
-            <img src="Foto/profile-lamhot.jpeg" alt="Lamhot">
-            <img src="Foto/profile-riris.jpeg" alt="Riris">
+          <img class="back-photo-bg" src="Foto/WhatsApp Image 2026-11-10 at 3.19.25 PM.jpeg" alt="Lamhot dan Riris">
+          <div class="cover-back-inner">
+            <p class="cover-eyebrow">Dengan penuh syukur</p>
+            <p class="blessing">Kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberi doa restu pada hari bahagia kami.</p>
+            <p class="cover-names">Lamhot <span class="gold">&amp;</span> Riris</p>
+            <div class="cover-rule"></div>
+            <button class="btn" id="backBtn">Buka undangan ↑</button>
           </div>
-          <p class="cover-date">Lamhot <span class="gold">&amp;</span> Riris</p>
-          <button class="btn btn-outline" id="backBtn">Buka undangan ↑</button>
         </div>
       </div>
     </div>
   </div>
-  <div class="cover-hint">Klik / geser untuk membalik sampul</div>
+  <div class="cover-hint">Klik / geser untuk melihat foto kami</div>
 </div>
 
 <!-- ============ NAV ============ -->
@@ -556,25 +565,42 @@ footer .small{margin-top:40px;font-size:.6rem;letter-spacing:.24em;color:#a89379
     flipped = state;
     card.classList.toggle('flipped', state);
   }
-  card.addEventListener('click', function(e){
-    if (e.target.closest('button')) return;
-    setFlip(!flipped);
-  });
   card.addEventListener('keydown', function(e){
     if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); setFlip(!flipped); }
   });
-  var startX = null, startY = null;
+  var startX = null, startY = null, suppressClick = false;
   card.addEventListener('touchstart', function(e){
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
+    suppressClick = false;
   }, {passive:true});
   card.addEventListener('touchend', function(e){
     if (startX === null) return;
     var dx = e.changedTouches[0].clientX - startX;
     var dy = e.changedTouches[0].clientY - startY;
-    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) setFlip(!flipped);
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2){
+      suppressClick = true;
+      setFlip(!flipped);
+    }
     startX = null; startY = null;
   }, {passive:true});
+  card.addEventListener('click', function(e){
+    if (suppressClick){ suppressClick = false; return; }
+    if (e.target.closest('button')) return;
+    setFlip(!flipped);
+  });
+  /* mouse drag (desktop) */
+  var mx = null;
+  card.addEventListener('mousedown', function(e){ if (!e.target.closest('button')) mx = e.clientX; });
+  window.addEventListener('mouseup', function(e){
+    if (mx === null) return;
+    var dx = e.clientX - mx;
+    if (Math.abs(dx) > 60){
+      suppressClick = true;
+      setFlip(!flipped);
+    }
+    mx = null;
+  });
 
   /* ---------- GUEST NAME + OPEN ---------- */
   var guestInput = $('guestInput');
