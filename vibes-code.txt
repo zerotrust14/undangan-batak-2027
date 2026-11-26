@@ -1,0 +1,72 @@
+## Project membuat digital wedding invitation / undangan pernikahan online##
+
+# Goals : Undangan pernikahan online yg bisa diakses oleh orang yang memiliki link
+# Thema : Adat Batak Invitation
+
+## Teknis Pembuatan ##
+
+# Undangan online terdiri dari : 
+
+- Cover Undangan
+- Isi Undangan
+- Profil pengantin (Foto dan biodata diri)
+- Short Story 
+- Foto 10 Pcs
+- Musik batak romance modern
+- Hari/Tanggal : Sabtu / 01 Mei 2027 
+- Maps Navigation : 
+* Pemberkatan : GKP Kadipaten
+* Pesta Adat : Aula GKP Cideres
+- Ucapan
+- Gift Information
+- Hitung mundur
+- Penutup
+
+# Buatkan undangan online ini bisa diakses melalu Handphone dan Laptop
+
+# Jika perlu database bisa ditaro di gdrive 
+
+# Jika sudah selesai buatkan link nya ya 
+
+
+
+------- 
+
+# Nama Pengantin 
+
+- Pria
+* Nama : Lamhot Parluhutan Tampubolon
+* Tanggal Lahir : 14 April 1997
+* Zodiak : Aries
+* Nama Ayah : Muer Tampubolon
+* Nama Ibu : Rasmi Pasaribu
+
+- Wanita
+* Nama : Riris Anastasia Simanungkalit
+* Tanggal Lahir : 25 Februari 1995
+* Zodiak : Pisces
+* Nama Ayah : Goklas Simanungkalit
+* Nama Ibu : Rosintan Panjaitan
+
+# Cerita Singkat : Pertemuan sederhana yang singkat menumbuhkan cinta kita berdua sehingga kami bisa saling menyangi dan mencintai. 
+
+# Link Referensi Undangan digitalnya : https://kertadigital.websiteinvite.id/batak-heritage/
+
+# Gift : 
+
+- No Rek BCA CPP : 8231928337726 (Lamhot)
+- No Rek BCA CPW : 6623771262365 (Riris)
+
+# Referensi musik cari saja yang romantis dari spotify
+
+# Hari Tanggal dan Jam Acara : 
+- Pemberkatan : Sabtu, 01 Mei 2027,  09.00 - 11.00 
+- Pesta Adat : Sabtu, 01 Mei 2027, 12.00 - 18.00
+
+# Tambahannya tolong buatkan lebih menarik, ada animasi-animasi nya jangan terlalu standard
+
+# Foto terlampir , folder Foto
+
+# Video terlampir , Video
+
+# Folder GDrive : https://drive.google.com/drive/folders/1jePgfOcEAS4cseyTE9z7sZzu7t18Mtez?usp=sharing
