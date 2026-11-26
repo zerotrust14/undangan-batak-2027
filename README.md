@@ -1,69 +1,59 @@
-# Undangan Pernikahan Lamhot & Riris
+# LAMRIS INVITATION — Undangan Pernikahan Lamhot & Riris
 
-Undangan digital satu halaman bertema Batak heritage, responsif untuk ponsel dan laptop.
-Situs ini dibuat sebagai situs statis dan dipublikasikan melalui GitHub Pages.
+Undangan digital satu halaman, cinematic, responsif di HP & laptop.
+Dipublikasikan publik melalui GitHub Pages.
 
-## Konten
+## Links
 
-- Cover cinematic **LAMRIS INVITATION** (balikkan klik / selipkan).
-- Mempelai, cerita singkat, video kenangan, galeri simetris 3×4 beranimasi, event+countdown,
-  gift, musik latar, dan form ucapan.
-- Pemberkatan: Sabtu, 1 Mei 2027, 09.00–11.00 WIB, GKP Kadipaten.
-- Pesta adat: Sabtu, 1 Mei 2027, 12.00–18.00 WIB, Aula GKP Cideres.
+- **GitHub repo** : https://github.com/zerotrust14/undangan-batak-2027
+- **Live (GitHub Pages)** : https://zerotrust14.github.io/undangan-batak-2027/
+- **Custom domain (rencana)** : https://our-beloved-story.com/lamris-invitation
 
-## Fitur
+## Isi & fitur
 
-- **Background**: folder `Background/` digunakan untuk sampul cinematic (`asset-1.jpg`),
-  latar Mempelai (`asset-2.jpg`), latar Cerita (`asset-3.jpg`).
-- **Backsound**: `Backsound/Jun_Munthe_-_Pinillit_Ni_Tondi.mp3` (Jun Munthe) sebagai musik
-  latar, dikendalikan melalui tombol **♫** yang selalu terlihat di pojok kanan bawah.
-- **Galeri**: 10 momen dalam grid simetris 3×3 (setara 3×4), zoom + hover animation, lightbox.
-- **Ucapan**: tersimpan di `localStorage` per perangkat pengunjung (belum dikirim ke pasangan).
-- Tanggal lahir & zodiak profil: **14 April 1997 · Aries** (Lamhot) · **25 Februari 1995 · Pisces** (Riris).
+- Cover cinematic **LAMRIS INVITATION**, bisa dibalik dengan klik / swipe.
+  Nama tamu diisi pada cover lalu dipakai di form ucapan.
+- Opening, kutipan, band motif Gorga, Mempelai tanpa tanggal lahir/zodiak,
+  Save The Date + countdown + Add to Calendar, Acara + Google Maps,
+  Our Journey (timeline 4 momen), Rumah Bolon (heritage), Our Film,
+  **Our Gallery (grid simetris 5×2 di desktop, 2×5 di HP, animasi + lightbox)**,
+  Wedding Gift (2 rekening BCA + tombol salin), Best Wish + daftar ucapan.
+- Backsound: **Jun Munthe — Pinilit Ni Tondi** (`Backsound/*.mp3`), diputar
+  lewat tombol ♫ dan otomatis saat tombol Open Invitation ditekan. Tanpa Spotify.
+- Background: `Background/asset-1.jpg` (motif Batak), `asset-2.jpg` (Gorga),
+  `asset-3.jpg` (Rumah Bolon).
 
-## Privasi dan publikasi
+## Publikasi
 
-Repositori dan situs ini bersifat publik. Detail nomor rekening, foto, dan video tampil pada
-halaman yang dapat diakses siapa saja yang memiliki URL. Pastikan pasangan menyetujui informasi
-dan media tersebut sebelum menyebarkan link.
+Repo sudah PUBLIC dan GitHub Pages sudah aktif (branch `main`, root, HTTPS enforced).
+Setiap push ke `main` otomatis mengupdate situs.
 
-## Mendapatkan akses dari siapa saja (domain)
+### Pasang custom domain nanti
 
-Situs statis ini bisa diakses dari siapa saja yang memiliki URL publik (GitHub Pages).
+1. Beli domain `our-beloved-story.com`, arahkan DNS:
+   - `A`  `@` → `185.199.108.153` (juga .109/.110/.111)
+   - `CNAME` `www` → `zerotrust14.github.io`
+2. Di GitHub: Settings → Pages → Custom domain → `our-beloved-story.com`,
+   centang **Enforce HTTPS**.
+3. Tambahkan file `CNAME` di root repo berisi `our-beloved-story.com` (GitHub
+   biasanya membuatnya otomatis).
+4. Supaya alamat `https://our-beloved-story.com/lamris-invitation` bekerja,
+   siapkan redirect dari path tersebut ke root situs di panel domain/hosting,
+   atau pindahkan seluruh isi situs ke folder `lamris-invitation/` dan set
+   Pages source ke folder tersebut.
 
-### Publikasi pakai GitHub Pages (auto via repo ini)
-
-1. Repo ini berisi `index.html`, `Foto/`, `Video/`, `Background/`, `Backsound/`.
-   (Folder `Foto/`, `Video/`, `Background/`, `Backsound/` biasanya tidak tercover `.gitignore`.
-   Periksa: `.gitignore` hanya mengabaikan `Video/Video Romantis.mp4`.)
-2. GitHub Pages → Settings → Pages → Build and deployment:
-   - Source: **Deploy from a branch** → branch `main`.
-   - Build output: **(empty)** (jangan centang `Enforce HTTPS` jika belum punya domain kustom).
-3. URL publik otomatis: **https://zerotrust14.github.io/undangan-batak-2027/**
-   (bergantikan `<owner>.github.io/<repo>` sesuai nama repo Anda).
-4. Aktifkan **Enforce HTTPS** bila domain kustom sudah dipasang (recommended).
-
-### Ubah domain buatan publish nanti
-
-- Ganti baris berikut di `README.md` / situs sesuai domain yang dipakai:
-  - `https://zerotrust14.github.io/undangan-batak-2027/`
-- Fitur `<base href>` tidak wajib untuk GitHub Pages (jalur relatif berfungsi).
-
-## Menjalankan lokal
+## Jalankan lokal
 
 ```sh
 python3 -m http.server 8765
 ```
-
 Buka `http://localhost:8765`.
 
-## Daftar isi file
+## Catatan privasi
 
-- `index.html` — situs utama (cover flip, galeri, musik latar, ucapan).
-- `Foto/` — foto profil + 10 momen.
-- `Video/video-romantis-mobile.mp4` — video romantis (H.264, 720p).
-- `Background/asset-1.jpg` — cover cinematic (5000×3571)
-- `Background/asset-2.jpg` — latar Mempelai (736×1380)
-- `Background/asset-3.jpg` — latar Cerita (600×900)
-- `Backsound/Jun_Munthe_-_Pinillit_Ni_Tondi.mp3` — backsound latar (Jun Munthe)
-- `README.md` — dokumen ini.
+Situs publik — siapa pun dengan link dapat melihat foto, video, dan nomor rekening.
+Ucapan tersimpan di browser pengunjung (`localStorage`), belum terkumpul ke pasangan.
+
+## Enhancement
+
+Menunggu foto prewed baru untuk diperbarui.
