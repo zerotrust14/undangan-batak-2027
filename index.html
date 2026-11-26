@@ -17,12 +17,12 @@
   --serif:'Playfair Display',Georgia,serif; --sans:'DM Sans',Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:76px}
+html{scroll-behavior:smooth;scroll-padding-top:76px;overflow-x:hidden}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-y:auto;touch-action:pan-y}
+/* no vertical lock anywhere — page must always be scrollable */
 body.opened{overflow-x:hidden;overflow-y:auto}
 body.no-scroll{overflow:hidden!important}
 html,body{min-height:100%}
-body:not(.opened){overflow:hidden}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:transparent}
@@ -38,7 +38,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:transparent
              url('Background/asset-1.jpg') center/cover no-repeat,var(--wine-deep)}
 .cover::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,transparent 10%,rgba(9,4,5,.78) 78%)}
 .cover::after{content:"";position:absolute;inset:16px;border:1px solid rgba(233,211,161,.28);pointer-events:none}
-body.opened .cover{opacity:0;visibility:hidden;transform:scale(1.04);transition:opacity 1s ease,transform 1.2s ease,visibility 0s 1s}
+body.opened .cover{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.04);transition:opacity 1s ease,transform 1.2s ease,visibility 0s 1s}
 .cover-inner{position:relative;z-index:2;width:min(760px,100%);text-align:center}
 .cover-eyebrow{font-size:.68rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-light);margin-bottom:20px}
 .cover-stage{perspective:1600px;height:min(68vh,560px)}
@@ -194,7 +194,7 @@ section{padding:96px 0;position:relative}
 
 /* gallery — symmetrical 5x2 desktop / 2x5 mobile */
 .gallery{background:var(--paper)}
-.gallery-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:1000px;margin:0 auto}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1000px;margin:0 auto}
 .gallery-item{position:relative;aspect-ratio:4/5;overflow:hidden;background:#e6dcc8;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.25,1)}
 .gallery-item.in{opacity:1;transform:none}
 .gallery-item button{width:100%;height:100%;padding:0;cursor:zoom-in}
@@ -255,7 +255,12 @@ footer .small{margin-top:40px;font-size:.6rem;letter-spacing:.24em;color:#a89379
 .music-btn.playing{background:var(--gold);color:var(--wine)}
 .music-note{position:fixed;right:78px;bottom:26px;z-index:80;color:#f1e2c6;font:italic .82rem var(--serif);text-shadow:0 2px 10px rgba(0,0,0,.6);opacity:0;transform:translateX(10px);transition:opacity .4s,transform .4s;pointer-events:none}
 .music-note.show{opacity:1;transform:none}
-@media(max-width:820px){.music-note{display:none}}
+/* auto-scroll */
+.autoscroll-btn{position:fixed;left:18px;bottom:18px;z-index:80;min-height:52px;padding:0 18px;border-radius:26px;border:1px solid rgba(233,211,161,.75);background:rgba(42,20,23,.85);color:#fff;display:inline-flex;align-items:center;gap:8px;font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;box-shadow:0 8px 28px rgba(0,0,0,.3);transition:transform .3s,background .3s,color .3s}
+.autoscroll-btn:hover{transform:translateY(-2px)}
+.autoscroll-btn.active{background:var(--gold);color:var(--wine)}
+.autoscroll-btn .ico{font-size:1.1rem;line-height:1}
+@media(max-width:820px){.music-note{display:none}.autoscroll-btn{min-height:46px;padding:0 14px;font-size:.62rem;left:12px;bottom:12px}}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.75,.25,1)}
@@ -543,6 +548,7 @@ footer .small{margin-top:40px;font-size:.6rem;letter-spacing:.24em;color:#a89379
   <div class="small">DENGAN PENUH SYUKUR · LAMRIS INVITATION</div>
 </footer>
 
+<button class="autoscroll-btn" id="autoScrollBtn" aria-label="Gulir otomatis"><span class="ico" id="autoIcon">↓</span><span id="autoLabel">Auto scroll</span></button>
 <button class="music-btn" id="musicBtn" aria-label="Putar atau jeda musik latar"><span id="musicIcon">♫</span></button>
 <div class="music-note" id="musicNote">Pinilit Ni Tondi — Jun Munthe</div>
 
@@ -641,7 +647,9 @@ footer .small{margin-top:40px;font-size:.6rem;letter-spacing:.24em;color:#a89379
     document.body.classList.add('opened');
     setFlip(false);
     playAudio();
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    setTimeout(function(){ document.documentElement.style.scrollBehavior = ''; }, 60);
   }
   $('openBtn').addEventListener('click', openInvitation);
   $('backBtn').addEventListener('click', openInvitation);
@@ -786,6 +794,48 @@ footer .small{margin-top:40px;font-size:.6rem;letter-spacing:.24em;color:#a89379
   });
   render();
 
+  /* ---------- AUTO SCROLL (smooth, pause on interaction) ---------- */
+  var autoBtn = $('autoScrollBtn'), autoIcon = $('autoIcon'), autoLabel = $('autoLabel');
+  var autoOn = false, autoRAF = null, autoLast = 0;
+  function scrollMax(){
+    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  }
+  function autoStep(ts){
+    if (!autoOn) return;
+    if (!autoLast) autoLast = ts;
+    var dt = Math.min(ts - autoLast, 50);
+    autoLast = ts;
+    var remain = scrollMax() - window.scrollY;
+    if (remain <= 2){ stopAuto(); return; }
+    window.scrollBy(0, Math.max(0.6, Math.min(remain, dt * 0.5)));
+    autoRAF = requestAnimationFrame(autoStep);
+  }
+  function startAuto(){
+    if (!document.body.classList.contains('opened')) openInvitation();
+    if (window.scrollY >= scrollMax() - 4) window.scrollTo(0, 0);
+    autoOn = true;
+    autoLast = 0;
+    autoBtn.classList.add('active');
+    autoIcon.textContent = '⏸';
+    autoLabel.textContent = 'Berhenti';
+    autoRAF = requestAnimationFrame(autoStep);
+  }
+  function stopAuto(){
+    autoOn = false;
+    if (autoRAF) cancelAnimationFrame(autoRAF);
+    autoRAF = null;
+    autoBtn.classList.remove('active');
+    autoIcon.textContent = '↓';
+    autoLabel.textContent = 'Auto scroll';
+  }
+  autoBtn.addEventListener('click', function(){ autoOn ? stopAuto() : startAuto(); });
+  ['wheel','touchstart','keydown'].forEach(function(evt){
+    window.addEventListener(evt, function(e){
+      if (autoOn && !e.target.closest('#autoScrollBtn')) stopAuto();
+    }, {passive:true});
+  });
+  lightbox.addEventListener('close', function(){ if (autoOn) stopAuto(); });
+
   /* ---------- REVEAL / GALLERY ANIMATION ---------- */
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
@@ -800,7 +850,7 @@ footer .small{margin-top:40px;font-size:.6rem;letter-spacing:.24em;color:#a89379
     entries.forEach(function(entry){
       if (entry.isIntersecting){
         var idx = Array.prototype.indexOf.call(grid.children, entry.target);
-        setTimeout(function(){ entry.target.classList.add('in'); }, (idx % 5) * 90);
+        setTimeout(function(){ entry.target.classList.add('in'); }, (idx % 3) * 90);
         gio.unobserve(entry.target);
       }
     });
